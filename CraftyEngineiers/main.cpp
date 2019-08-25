@@ -25,6 +25,83 @@
 //GLFW
 #include <GLFW/glfw3.h>
 
+//Camera
+//#include "Camera.h"
+
+typedef enum
+{
+    GrassBlock = 0, DirtBlock
+}BlockType;
+
+void placeBlock(float x, float y, float z, BlockType type){
+    
+    BlockType myType;
+    switch(type){
+        case BlockType::GrassBlock: myType = type; break;
+        case BlockType::DirtBlock: myType = type; break;
+    }
+    
+    const float sizex = 0.5f;
+    const float sizey = 0.5f;
+    const float sizez = 0.5f;
+    
+    glTranslatef(-x, -y, -z);
+    
+    glBegin(GL_QUADS);
+    
+    if (myType == BlockType::GrassBlock) {
+        glColor3f(0.0, 1.0, 0.0);
+    }
+    
+    // FRONT
+    glVertex3f(-sizex, -sizey, sizez);
+    glVertex3f(sizex, -sizey, sizez);
+    glVertex3f(sizex, sizey, sizez);
+    glVertex3f(-sizex, sizey, sizez);
+    
+    // BACK
+    glVertex3f(-sizex, -sizey, -sizez);
+    glVertex3f(-sizex, sizey, -sizez);
+    glVertex3f(sizex, sizey, -sizez);
+    glVertex3f(sizex, -sizey, -sizez);
+    
+    if (myType == BlockType::GrassBlock) {
+        glColor3f(0.0, 1.0, 0.0);
+    }
+    
+    // LEFT
+    glVertex3f(-sizex, -sizey, sizez);
+    glVertex3f(-sizex, sizey, sizez);
+    glVertex3f(-sizex, sizey, -sizez);
+    glVertex3f(-sizex, -sizey, -sizez);
+    
+    // RIGHT
+    glVertex3f(sizex, -sizey, -sizez);
+    glVertex3f(sizex, sizey, -sizez);
+    glVertex3f(sizex, sizey, sizez);
+    glVertex3f(sizex, -sizey, sizez);
+    
+    if (myType == BlockType::GrassBlock) {
+        glColor3f(0.0, 1.0, 0.0);
+    }
+    
+    // TOP
+    glVertex3f(-sizex, sizey, sizez);
+    glVertex3f(sizex, sizey, sizez);
+    glVertex3f(sizex, sizey, -sizez);
+    glVertex3f(-sizex, sizey, -sizez);
+    
+    // BOTTOM
+    glVertex3f(-sizex, -sizey, sizez);
+    glVertex3f(-sizex, -sizey, -sizez);
+    glVertex3f(sizex, -sizey, -sizez);
+    glVertex3f(sizex, -sizey, sizez);
+    
+    glEnd();
+    
+    glTranslatef(x, y, z);
+}
+
 // Clears the window and draws the tetrahedron.  The tetrahedron is  easily
 // specified with a triangle strip, though the specification really isn't very
 // easy to read.
@@ -40,16 +117,7 @@ void display() {
     }
     glEnd();
     
-    // Draw the tetrahedron.  It is a four sided figure, so when defining it
-    // with a triangle strip we have to repeat the last two vertices.
-    glBegin(GL_TRIANGLE_STRIP);
-    glColor3f(1, 1, 1); glVertex3f(0, 2, 0);
-    glColor3f(1, 0, 0); glVertex3f(-1, 0, 1);
-    glColor3f(0, 1, 0); glVertex3f(1, 0, 1);
-    glColor3f(0, 0, 1); glVertex3f(0, 0, -1.4);
-    glColor3f(1, 1, 1); glVertex3f(0, 2, 0);
-    glColor3f(1, 0, 0); glVertex3f(-1, 0, 1);
-    glEnd();
+    placeBlock(.900f, .0f, .0f, BlockType::GrassBlock);
     
     glFlush();
 }
