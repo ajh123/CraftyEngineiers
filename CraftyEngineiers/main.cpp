@@ -25,6 +25,10 @@
 //GLFW
 #include <GLFW/glfw3.h>
 
+//Other
+#include "Camera.h"
+
+
 // Clears the window and draws the tetrahedron.  The tetrahedron is  easily
 // specified with a triangle strip, though the specification really isn't very
 // easy to read.
