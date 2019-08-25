@@ -21,6 +21,19 @@
 
 enum Camera_Movement
 {
-    
+    FORWARD,
+    BACKWARD,
+    LEFT,
+    RIGHT
 };
 
+const GLfloat YAW = -90.f;
+const GLfloat PITCH = 0.0f;
+const GLfloat SPEED = 6.0f;
+const GLfloat SENSEITIVITY = 0.25f;
+const GLfloat ZOOM = 45.0f;
+
+class Camera
+{
+    
+};
