@@ -8,11 +8,12 @@
 
 #include <iostream>
 
-
-
 //GLEW
 #define GLEW_STATIC
 #include <GL/glew.h>
+
+//GLM
+#include <glm/glm.hpp>
 
 //GLUT
 #ifdef __APPLE_CC__

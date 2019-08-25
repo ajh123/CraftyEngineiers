@@ -31,6 +31,8 @@
 		85A7F02F231281E600CC885D /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		85A7F0312312827A00CC885D /* libGLEW.2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.1.0.dylib; path = ../../../../../../../usr/local/Cellar/glew/2.1.0/lib/libGLEW.2.1.0.dylib; sourceTree = "<group>"; };
 		85A7F033231282CC00CC885D /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../../../../usr/local/Cellar/glfw/3.3/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
+		85E811162312D7D8004E6F3C /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; path = glm; sourceTree = "<group>"; };
+		85E811172312DC0E004E6F3C /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				85A7F02723127A5F00CC885D /* main.cpp */,
+				85E811172312DC0E004E6F3C /* Camera.h */,
 			);
 			path = CraftyEngineiers;
 			sourceTree = "<group>";
@@ -75,6 +78,7 @@
 		85A7F02E231281E600CC885D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				85E811162312D7D8004E6F3C /* glm */,
 				85A7F033231282CC00CC885D /* libglfw.3.3.dylib */,
 				85A7F0312312827A00CC885D /* libGLEW.2.1.0.dylib */,
 				85A7F02F231281E600CC885D /* OpenGL.framework */,
@@ -261,7 +265,12 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 63SZ3Z9B8H;
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					"/Users/samuelhulme/Desktop/COODE/c++",
+					game,
+					engine/Include,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glew/2.1.0/lib,
@@ -276,7 +285,12 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 63SZ3Z9B8H;
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					"/Users/samuelhulme/Desktop/COODE/c++",
+					game,
+					engine/Include,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/Cellar/glew/2.1.0/lib,
