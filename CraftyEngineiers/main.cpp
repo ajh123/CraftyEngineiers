@@ -180,10 +180,7 @@ void init() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glTranslatef(0.0f, 0.0f, -3.0f);
-    //glRotatef(50, 1, 0, 0);
-    //glRotatef(70, 0, 1, 0);
-    
-
+    glRotatef(-90, 0, 0, 0);
 }
 
 int main(int argc, char** argv)
