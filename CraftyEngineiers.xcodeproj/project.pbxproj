@@ -11,6 +11,7 @@
 		85A7F030231281E600CC885D /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A7F02F231281E600CC885D /* OpenGL.framework */; };
 		85A7F0322312827A00CC885D /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A7F0312312827A00CC885D /* libGLEW.2.1.0.dylib */; };
 		85A7F034231282CC00CC885D /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A7F033231282CC00CC885D /* libglfw.3.3.dylib */; };
+		85F2E7B72314564F007F7175 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 85F2E7A72314036B007F7175 /* Camera.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,6 +34,7 @@
 		85A7F033231282CC00CC885D /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../../../../usr/local/Cellar/glfw/3.3/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
 		85E811162312D7D8004E6F3C /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; path = glm; sourceTree = "<group>"; };
 		85E8111A2312F06B004E6F3C /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		85F2E7A72314036B007F7175 /* Camera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				85A7F02723127A5F00CC885D /* main.cpp */,
-				85E8111A2312F06B004E6F3C /* Camera.h */,
+				85F2E7A9231405C4007F7175 /* old */,
 			);
 			path = CraftyEngineiers;
 			sourceTree = "<group>";
@@ -84,6 +86,15 @@
 				85A7F02F231281E600CC885D /* OpenGL.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		85F2E7A9231405C4007F7175 /* old */ = {
+			isa = PBXGroup;
+			children = (
+				85E8111A2312F06B004E6F3C /* Camera.h */,
+				85F2E7A72314036B007F7175 /* Camera.cpp */,
+			);
+			path = old;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,6 +153,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85F2E7B72314564F007F7175 /* Camera.cpp in Sources */,
 				85A7F02823127A5F00CC885D /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

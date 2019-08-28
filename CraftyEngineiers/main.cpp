@@ -15,6 +15,12 @@
 //GLM
 #include <glm/glm.hpp>
 
+// standard C++ libraries
+#include <cassert>
+#include <iostream>
+#include <stdexcept>
+#include <cmath>
+
 //GLUT
 #ifdef __APPLE_CC__
 #include <GLUT/glut.h>
@@ -25,8 +31,7 @@
 //GLFW
 #include <GLFW/glfw3.h>
 
-//Camera
-//#include "Camera.h"
+
 
 typedef enum
 {
@@ -50,7 +55,9 @@ void placeBlock(float x, float y, float z, BlockType type){
     glBegin(GL_QUADS);
     
     if (myType == BlockType::GrassBlock) {
-        glColor3f(0.0, 1.0, 0.0);
+        glColor3f(.56, .56, .2);
+    }else if (myType == BlockType::DirtBlock) {
+        glColor3f(.56, .56, .2);
     }
     
     // FRONT
@@ -59,6 +66,12 @@ void placeBlock(float x, float y, float z, BlockType type){
     glVertex3f(sizex, sizey, sizez);
     glVertex3f(-sizex, sizey, sizez);
     
+    if (myType == BlockType::GrassBlock) {
+        glColor3f(.56, .56, .2);
+    }else if (myType == BlockType::DirtBlock) {
+        glColor3f(.56, .56, .2);
+    }
+    
     // BACK
     glVertex3f(-sizex, -sizey, -sizez);
     glVertex3f(-sizex, sizey, -sizez);
@@ -66,7 +79,9 @@ void placeBlock(float x, float y, float z, BlockType type){
     glVertex3f(sizex, -sizey, -sizez);
     
     if (myType == BlockType::GrassBlock) {
-        glColor3f(0.0, 1.0, 0.0);
+        glColor3f(.56, .56, .2);
+    }else if (myType == BlockType::DirtBlock) {
+        glColor3f(.56, .56, .2);
     }
     
     // LEFT
@@ -74,6 +89,12 @@ void placeBlock(float x, float y, float z, BlockType type){
     glVertex3f(-sizex, sizey, sizez);
     glVertex3f(-sizex, sizey, -sizez);
     glVertex3f(-sizex, -sizey, -sizez);
+    
+    if (myType == BlockType::GrassBlock) {
+        glColor3f(.56, .56, .2);
+    }else if (myType == BlockType::DirtBlock) {
+        glColor3f(.56, .56, .2);
+    }
     
     // RIGHT
     glVertex3f(sizex, -sizey, -sizez);
@@ -83,6 +104,8 @@ void placeBlock(float x, float y, float z, BlockType type){
     
     if (myType == BlockType::GrassBlock) {
         glColor3f(0.0, 1.0, 0.0);
+    }else if (myType == BlockType::DirtBlock) {
+        glColor3f(.56, .56, .2);
     }
     
     // TOP
@@ -90,6 +113,12 @@ void placeBlock(float x, float y, float z, BlockType type){
     glVertex3f(sizex, sizey, sizez);
     glVertex3f(sizex, sizey, -sizez);
     glVertex3f(-sizex, sizey, -sizez);
+    
+    if (myType == BlockType::GrassBlock) {
+        glColor3f(.56, .56, .2);
+    }else if (myType == BlockType::DirtBlock) {
+        glColor3f(.56, .56, .2);
+    }
     
     // BOTTOM
     glVertex3f(-sizex, -sizey, sizez);
@@ -117,7 +146,8 @@ void display() {
     }
     glEnd();
     
-    placeBlock(.900f, .0f, .0f, BlockType::GrassBlock);
+    placeBlock(.0f, .0f, 1.0f, BlockType::DirtBlock);
+    placeBlock(.0f, .0f, .0f, BlockType::GrassBlock);
     
     glFlush();
 }
@@ -168,6 +198,7 @@ int main(int argc, char** argv)
 
     
     GLFWwindow* window;
+
     
     /* Initialize the library */
     if (!glfwInit())
@@ -198,8 +229,15 @@ int main(int argc, char** argv)
     init();
     
     /* Loop until the user closes the window */
+
     while (!glfwWindowShouldClose(window))
     {
+        // update the scene based on the time elapsed since last update
+
+
+        
+
+    
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
         
