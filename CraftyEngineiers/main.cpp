@@ -5,7 +5,7 @@
 //  Created by Samuel Hulme on 25/08/2019.
 //  Copyright © 2019 SJH. All rights reserved.
 //
-
+#define GL_SILENCE_DEPRECATION
 #include <iostream>
 
 //GLEW
@@ -31,7 +31,26 @@
 //GLFW
 #include <GLFW/glfw3.h>
 
+//Camera
+#include "Camera.h"
 
+// Properties
+const GLuint WIDTH = 800, HEIGHT = 600;
+int SCREEN_WIDTH, SCREEN_HEIGHT;
+
+// Function prototypes
+void KeyCallback( GLFWwindow *window, int key, int scancode, int action, int mode );
+void MouseCallback( GLFWwindow *window, double xPos, double yPos );
+void DoMovement( );
+
+// Camera
+Camera  camera(glm::vec3( 0.0f, 0.0f, 3.0f ) );
+GLfloat lastX = WIDTH / 2.0;
+GLfloat lastY = HEIGHT / 2.0;
+bool keys[1024];
+bool firstMouse = true;
+GLfloat deltaTime = 0.0f;
+GLfloat lastFrame = 0.0f;
 
 typedef enum
 {
@@ -39,95 +58,77 @@ typedef enum
 }BlockType;
 
 void placeBlock(float x, float y, float z, BlockType type){
-    
     BlockType myType;
     switch(type){
         case BlockType::GrassBlock: myType = type; break;
         case BlockType::DirtBlock: myType = type; break;
     }
-    
     const float sizex = 0.5f;
     const float sizey = 0.5f;
     const float sizez = 0.5f;
-    
     glTranslatef(-x, -y, -z);
-    
     glBegin(GL_QUADS);
-    
     if (myType == BlockType::GrassBlock) {
         glColor3f(.56, .56, .2);
     }else if (myType == BlockType::DirtBlock) {
         glColor3f(.56, .56, .2);
     }
-    
     // FRONT
     glVertex3f(-sizex, -sizey, sizez);
     glVertex3f(sizex, -sizey, sizez);
     glVertex3f(sizex, sizey, sizez);
     glVertex3f(-sizex, sizey, sizez);
-    
     if (myType == BlockType::GrassBlock) {
         glColor3f(.56, .56, .2);
     }else if (myType == BlockType::DirtBlock) {
         glColor3f(.56, .56, .2);
     }
-    
     // BACK
     glVertex3f(-sizex, -sizey, -sizez);
     glVertex3f(-sizex, sizey, -sizez);
     glVertex3f(sizex, sizey, -sizez);
     glVertex3f(sizex, -sizey, -sizez);
-    
     if (myType == BlockType::GrassBlock) {
         glColor3f(.56, .56, .2);
     }else if (myType == BlockType::DirtBlock) {
         glColor3f(.56, .56, .2);
     }
-    
     // LEFT
     glVertex3f(-sizex, -sizey, sizez);
     glVertex3f(-sizex, sizey, sizez);
     glVertex3f(-sizex, sizey, -sizez);
     glVertex3f(-sizex, -sizey, -sizez);
-    
     if (myType == BlockType::GrassBlock) {
         glColor3f(.56, .56, .2);
     }else if (myType == BlockType::DirtBlock) {
         glColor3f(.56, .56, .2);
     }
-    
     // RIGHT
     glVertex3f(sizex, -sizey, -sizez);
     glVertex3f(sizex, sizey, -sizez);
     glVertex3f(sizex, sizey, sizez);
     glVertex3f(sizex, -sizey, sizez);
-    
     if (myType == BlockType::GrassBlock) {
         glColor3f(0.0, 1.0, 0.0);
     }else if (myType == BlockType::DirtBlock) {
         glColor3f(.56, .56, .2);
     }
-    
     // TOP
     glVertex3f(-sizex, sizey, sizez);
     glVertex3f(sizex, sizey, sizez);
     glVertex3f(sizex, sizey, -sizez);
     glVertex3f(-sizex, sizey, -sizez);
-    
     if (myType == BlockType::GrassBlock) {
         glColor3f(.56, .56, .2);
     }else if (myType == BlockType::DirtBlock) {
         glColor3f(.56, .56, .2);
     }
-    
     // BOTTOM
     glVertex3f(-sizex, -sizey, sizez);
     glVertex3f(-sizex, -sizey, -sizez);
     glVertex3f(sizex, -sizey, -sizez);
     glVertex3f(sizex, -sizey, sizez);
-    
     glEnd();
-    
     glTranslatef(x, y, z);
 }
 
@@ -157,7 +158,7 @@ void display() {
 // sets up the desired projection and modelview matrices. It is cleaner to
 // define these operations in a function separate from main().
 void init() {
-    
+
     // Set the current clear color to sky blue and the current drawing color to
     // white.
     glClearColor(0.1, 0.39, 0.88, 1.0);
@@ -172,41 +173,29 @@ void init() {
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     
-    // Set the camera lens so that we have a perspective viewing volume whose
-    // horizontal bounds at the near clipping plane are -2..2 and vertical
-    // bounds are -1.5..1.5.  The near clipping plane is 1 unit from the camera
-    // and the far clipping plane is 40 units away.
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glFrustum(-2, 2, -1.5, 1.5, 1, 40);
     
-    // Set up transforms so that the tetrahedron which is defined right at
-    // the origin will be rotated and moved into the view volume.  First we
-    // rotate 70 degrees around y so we can see a lot of the left side.
-    // Then we rotate 50 degrees around x to "drop" the top of the pyramid
-    // down a bit.  Then we move the object back 3 units "into the screen".
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glTranslatef(0, 0, -3);
-    glRotatef(50, 1, 0, 0);
-    glRotatef(70, 0, 1, 0);
-}
+    glTranslatef(0.0f, 0.0f, -3.0f);
+    //glRotatef(50, 1, 0, 0);
+    //glRotatef(70, 0, 1, 0);
+    
 
+}
 
 int main(int argc, char** argv)
 {
 
-    
-    GLFWwindow* window;
-
-    
     /* Initialize the library */
     if (!glfwInit())
         return -1;
     
     fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "CraftyEngineiers", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow( WIDTH, HEIGHT, "CraftyEngineiers", nullptr, nullptr);
     if (!window)
     {
         glfwTerminate();
@@ -215,6 +204,8 @@ int main(int argc, char** argv)
     
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+    glfwSetKeyCallback( window, KeyCallback );
+    glfwSetCursorPosCallback( window, MouseCallback );
     
     GLenum err = glewInit();
     if (GLEW_OK != err)
@@ -226,27 +217,87 @@ int main(int argc, char** argv)
     //fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
     fprintf(stdout, "Status: Using OpenGL %s\n", glGetString(GL_VERSION));
     
-    init();
-    
-    /* Loop until the user closes the window */
 
+    //glfwSetInputMode( window, GLFW_CURSOR, GLFW_CURSOR_DISABLED );
+    /* Loop until the user closes the window */
+    init();
     while (!glfwWindowShouldClose(window))
     {
-        // update the scene based on the time elapsed since last update
-
-
-        
-
-    
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
-        
+        // Set frame time
+        GLfloat currentFrame = glfwGetTime( );
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
         /* Poll for and process events */
         glfwPollEvents();
-        
+        DoMovement( );
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
         display();
     }
     
     glfwTerminate();
     return 0;
+}
+
+void DoMovement( )
+{
+    // Camera controls
+    if( keys[GLFW_KEY_W] || keys[GLFW_KEY_UP] )
+    {
+        camera.ProcessKeyboard( FORWARD, deltaTime );
+    }
+    
+    if( keys[GLFW_KEY_S] || keys[GLFW_KEY_DOWN] )
+    {
+        camera.ProcessKeyboard( BACKWARD, deltaTime );
+    }
+    
+    if( keys[GLFW_KEY_A] || keys[GLFW_KEY_LEFT] )
+    {
+        camera.ProcessKeyboard( LEFT, deltaTime );
+    }
+    
+    if( keys[GLFW_KEY_D] || keys[GLFW_KEY_RIGHT] )
+    {
+        camera.ProcessKeyboard( RIGHT, deltaTime );
+    }
+}
+
+// Is called whenever a key is pressed/released via GLFW
+void KeyCallback( GLFWwindow *window, int key, int scancode, int action, int mode )
+{
+    if( key == GLFW_KEY_ESCAPE && action == GLFW_PRESS )
+    {
+        glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+    
+    if ( key >= 0 && key < 1024 )
+    {
+        if( action == GLFW_PRESS )
+        {
+            keys[key] = true;
+        }
+        else if( action == GLFW_RELEASE )
+        {
+            keys[key] = false;
+        }
+    }
+}
+
+void MouseCallback( GLFWwindow *window, double xPos, double yPos )
+{
+    if( firstMouse )
+    {
+        lastX = xPos;
+        lastY = yPos;
+        firstMouse = false;
+    }
+    
+    GLfloat xOffset = xPos - lastX;
+    GLfloat yOffset = lastY - yPos;  // Reversed since y-coordinates go from bottom to left
+    
+    lastX = xPos;
+    lastY = yPos;
+    
+    camera.ProcessMouseMovement( xOffset, yOffset );
 }
